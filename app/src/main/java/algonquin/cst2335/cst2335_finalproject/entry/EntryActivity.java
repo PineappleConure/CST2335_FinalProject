@@ -5,17 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-//import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.appcompat.widget.Toolbar;
 
 import algonquin.cst2335.cst2335_finalproject.MainActivity;
 import algonquin.cst2335.cst2335_finalproject.R;
 import algonquin.cst2335.cst2335_finalproject.databinding.ActivityEntryBinding;
+
 
 /**
  * This class shows four buttons that links to four different apps as well as icons
@@ -31,17 +29,6 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         activityEntryBinding = DataBindingUtil.setContentView(this, R.layout.activity_entry);
         activityEntryBinding.setOnClick(this);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
-
-        // Ensure the action bar is not null
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true); // Enable the Up button
-        }
     }
 
     /**

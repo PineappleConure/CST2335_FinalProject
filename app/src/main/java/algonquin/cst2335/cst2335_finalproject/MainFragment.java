@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDao;
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDatabase;
 import algonquin.cst2335.cst2335_finalproject.databinding.FragmentMainBinding;
@@ -41,7 +39,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * @author Farhana Mahmud
+ * @author Linna Wang
  * @version 1.0
  */
 public class MainFragment extends Fragment implements OnItemClickListener {

@@ -1,25 +1,17 @@
 package algonquin.cst2335.cst2335_finalproject;
 
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.room.Room;
@@ -27,16 +19,8 @@ import androidx.room.Room;
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDao;
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDatabase;
 import algonquin.cst2335.cst2335_finalproject.databinding.ActivityFavouritelistingBinding;
-import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainBinding;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 

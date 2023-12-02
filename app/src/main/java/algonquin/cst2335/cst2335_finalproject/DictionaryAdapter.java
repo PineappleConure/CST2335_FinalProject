@@ -3,8 +3,6 @@ package algonquin.cst2335.cst2335_finalproject;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -14,6 +12,7 @@ import algonquin.cst2335.cst2335_finalproject.databinding.WordListItemBinding;
 import algonquin.cst2335.cst2335_finalproject.databinding.WordListItemWithDeleteBinding;
 
 import java.util.List;
+
 
 /**
  * @author Linna Wang

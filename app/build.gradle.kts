@@ -50,6 +50,7 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.android.volley:volley:1.2.1")
     implementation("androidx.databinding:databinding-runtime:8.2.0")
+    implementation("androidx.fragment:fragment:1.6.2")
 
     val room_version = "2.4.2"
     implementation("androidx.room:room-runtime:$room_version")

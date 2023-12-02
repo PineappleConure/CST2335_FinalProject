@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.versionedparcelable.ParcelField;
 
 import org.json.JSONException;
 import org.json.JSONObject;

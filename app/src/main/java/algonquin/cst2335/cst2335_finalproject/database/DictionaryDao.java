@@ -6,9 +6,9 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import java.util.List;
-
 import algonquin.cst2335.cst2335_finalproject.Dictionary;
+
+import java.util.List;
 
 @Dao
 public interface DictionaryDao {

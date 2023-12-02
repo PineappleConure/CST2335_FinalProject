@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CST2335_FinalProject</string>
+    <string name="app_name">FinalProject</string>
     <string name="word_hint">Enter a word</string>
     <string name="search">Search</string>
     <string name="toolbar_title">Dictionary</string>

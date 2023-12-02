@@ -1,15 +1,6 @@
 package algonquin.cst2335.cst2335_finalproject;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.room.Room;
-
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,12 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDao;
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDatabase;
 import algonquin.cst2335.cst2335_finalproject.databinding.ActivityWordDetailBinding;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
 
 public class DictionaryDetail extends Fragment implements View.OnClickListener{
 
