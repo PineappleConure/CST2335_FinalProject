@@ -1,3 +1,42 @@
 <resources>
     <string name="app_name">CST2335_FinalProject</string>
+    <string name="word_hint">Enter a word</string>
+    <string name="search">Search</string>
+    <string name="toolbar_title">Dictionary</string>
+    <string name="remove">Remove</string>
+    <string name="sunset">Sunrise and Sunset lookup</string>
+    <string name="recipe">Recipe Search</string>
+    <string name="dictionary">Dictionary</string>
+    <string name="deezer">Deezer song search </string>
+    <string name="fav_word">List of favorite word</string>
+    <string name="add_fav">Add to favorite</string>
+    <string name="hint">Enter a word</string>
+    <string name="help">Help</string>
+    <string name="entry_help_title">Instruction</string>
+    <string name="entry_help_detail">Please select the activity on the page</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="word">Word:</string>
+    <string name="hint_word">Enter a word to search</string>
+    <string name="delete">Delete</string>
+    <string name="no_internet">No internet connection. Please check your network settings.</string>
+    <string name="word_warning">Please enter a word</string>
+    <string name="no_word_found">No definition found for the given word.</string>
+    <string name="api_server_error">Error occurred while fetching data: </string>
+    <string name="favourite">Favourite</string>
+    <string name="main_help_title">Search a word</string>
+    <string name="main_help_message">Type the word to get definitions</string>
+    <string name="no_record_found">Sorry! No Record in Favourite</string>
+    <string name="favourite_help_title">Help\n</string>
+    <string name="favourite_help_message">Add item to favourites\n</string>
+    <string name="do_you_want_delete_record">"Do you want to delete the record on "</string>
+    <string name="selected_record_deleted_successfully">Selected Record Deleted Successfully</string>
+    <string name="please_confirm">Please Confirm\n</string>
+    <string name="yes">Yes\n</string>
+    <string name="save_to_favourite">Save to favourite</string>
+    <string name="definition">Definition: </string>
+    <string name="add_into_favourite" >Add into favourite successfully</string>
+    <string name="detail_help_title">Help</string>
+    <string name="detail_help_message">Change as per your understanding\n</string>
+
 </resources>
