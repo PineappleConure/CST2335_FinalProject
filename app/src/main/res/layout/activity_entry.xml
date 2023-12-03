@@ -20,7 +20,7 @@
             android:id="@+id/btn_sunset"
             android:layout_width="351dp"
             android:layout_height="50dp"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="100dp"
             android:layout_marginBottom="24dp"
             android:onClick="@{(v)->onClick.onClick(v)}"
             android:text="@string/sunset"

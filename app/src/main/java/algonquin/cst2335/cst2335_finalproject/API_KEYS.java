@@ -1,5 +1,9 @@
 package algonquin.cst2335.cst2335_finalproject;
 
+/**
+ * Dictionary Api keys
+ * @author Linna Wang
+ */
 public class API_KEYS {
     public static final String FRAGMENT_MAIN="main";
     public static final String DATABASE_NAME = "dictionary_database";

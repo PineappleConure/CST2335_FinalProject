@@ -3,6 +3,7 @@ package algonquin.cst2335.cst2335_finalproject;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDao;
 import algonquin.cst2335.cst2335_finalproject.database.DictionaryDatabase;
@@ -34,33 +36,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
+ * Dictioonary main fragment class
  * @author Linna Wang
- * @version 1.0
  */
 public class MainFragment extends Fragment implements OnItemClickListener {
-
-    /**
-     * Initialize DictionaryAdapter
-     */
     private DictionaryAdapter dictionaryAdapter;
-    /**
-     * Initialize FragmentMainBinding
-     */
     private FragmentMainBinding fragmentMainBinding;
-    /**
-     * Initialize RequestQueue object
-     */
     private RequestQueue requestQueue;
-
     DictionaryDatabase dictionaryDatabase;
     DictionaryDao dictionaryDao;
-
-
 
     @Nullable
     @Override
@@ -102,15 +93,15 @@ public class MainFragment extends Fragment implements OnItemClickListener {
             }
         }
         fragmentMainBinding.btnSearch.setOnClickListener(view -> {
-            String airportCode = fragmentMainBinding.editSearch.getText().toString();
+            String word = fragmentMainBinding.editSearch.getText().toString();
 
 
-            if (TextUtils.isEmpty(airportCode)) {
+            if (TextUtils.isEmpty(word)) {
                 MainActivity.showAlertDialog(getActivity(), getResources().getString(R.string.hint_word), getResources().getString(R.string.word_warning), new String[]{getResources().getString(R.string.ok),getResources().getString(R.string.cancel)},null,null);
             } else {
                 if (isNetworkConnected()) {
                     fragmentMainBinding.pbLoader.setVisibility(View.VISIBLE);
-                    fetchDataFromAPI(airportCode);
+                    fetchDataFromAPI(word);
                 } else {
                     MainActivity.createToast(getActivity(), getResources().getString(R.string.no_internet));
                 }
@@ -119,89 +110,108 @@ public class MainFragment extends Fragment implements OnItemClickListener {
     }
 
 
-    /**
-     * This method checks the network connectivity
-     * @return connection status
-     */
     private boolean isNetworkConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    /**
-     * This method fetches data from the API
-     * @param word is used to check the word details
-     */
-    private void fetchDataFromAPI(String word) {
-        String apiUrl = API_KEYS.API_URL+ word;
 
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, apiUrl, null,
-                response -> {
-                    fragmentMainBinding.pbLoader.setVisibility(View.GONE);
-                    Log.d("API_RESPONSE", response.toString());
-                    List<Dictionary> dictionary = parseDictionaryData(response);
-                    if (dictionary.size()>0) {
-                        dictionaryAdapter.setData(dictionary);
-                        SharedPreferenceHelper.setStringValue(API_KEYS.WORD,word);
-                    } else {
-                        MainActivity.createToast(getContext(), getResources().getString(R.string.no_word_found));
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        fragmentMainBinding.pbLoader.setVisibility(View.GONE);
-                        // Log the error
-                        Log.e("API_ERROR", "Error occurred while fetching data: " + error.getMessage());
-                        MainActivity.createToast(getContext(), getResources().getString(R.string.api_server_error) + error.getMessage());
-                    }
-                });
+    private void fetchDataFromAPI(final String word) {
+        String apiUrl = API_KEYS.API_URL + Uri.encode(word);
 
-        requestQueue.add(jsonObjectRequest);
+        // Use StringRequest instead of JsonObjectRequest to get the response as a string
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, apiUrl,
+                response -> onApiResponse(response, word),
+                this::onApiError);
+
+        requestQueue.add(stringRequest);
     }
 
-    /**
-     * Populates the ArrayList with list of word details
-     * @param response
-     * @return
-     */
-    private List<Dictionary> parseDictionaryData(JSONObject response) {
-        List<Dictionary> dictionaries = new ArrayList<>();
+    private void onApiResponse(String response, String word) {
         try {
-            JSONArray data = response.getJSONArray(API_KEYS.WORD);
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject dictionaryObject = data.getJSONObject(i);
-                Dictionary dictionary = new Dictionary().convertJsonToDictionary(dictionaryObject);
-                dictionaries.add(dictionary);
-            }
+            // Convert the response string to a JSONArray
+            JSONArray responseArray = new JSONArray(response);
 
+            // Handle the JSONArray response
+            List<Dictionary> dictionaryList = parseDictionaryData(responseArray);
+            if (!dictionaryList.isEmpty()) {
+                dictionaryAdapter.setData(dictionaryList);
+                dictionaryAdapter.notifyDataSetChanged(); // Make sure to notify the adapter
+                SharedPreferenceHelper.setStringValue(API_KEYS.WORD, word);
+            } else {
+                MainActivity.createToast(getContext(), getResources().getString(R.string.no_word_found));
+            }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e("API_ERROR", "Error occurred while parsing the response: " + e.getMessage());
+            MainActivity.createToast(getContext(), getResources().getString(R.string.api_server_error));
+        }
+        fragmentMainBinding.pbLoader.setVisibility(View.GONE);
+    }
+
+    private void onApiError(VolleyError error) {
+        fragmentMainBinding.pbLoader.setVisibility(View.GONE);
+        Log.e("API_ERROR", "Error occurred while fetching data: " + error.toString());
+        MainActivity.createToast(getContext(), getResources().getString(R.string.api_server_error) + error.toString());
+    }
+
+    private List<Dictionary> parseDictionaryData(JSONArray responseArray) {
+        List<Dictionary> dictionaries = new ArrayList<>();
+        Set<String> addedWords = new HashSet<>(); // Set to keep track of added words
+        try {
+            for (int i = 0; i < responseArray.length(); i++) {
+                JSONObject wordObject = responseArray.getJSONObject(i);
+                String word = wordObject.getString("word");
+
+                // Check if the word has already been added
+                if (!addedWords.contains(word)) {
+                    addedWords.add(word); // Add the word to the set
+                    JSONArray meaningsArray = wordObject.getJSONArray("meanings");
+
+                    for (int j = 0; j < meaningsArray.length(); j++) {
+                        JSONObject meaningsObject = meaningsArray.getJSONObject(j);
+                        JSONArray definitionsArray = meaningsObject.getJSONArray("definitions");
+
+                        for (int k = 0; k < definitionsArray.length(); k++) {
+                            JSONObject definitionObject = definitionsArray.getJSONObject(k);
+                            String definition = definitionObject.getString("definition");
+
+                            Dictionary dictionary = new Dictionary(word, definition);
+                            dictionaries.add(dictionary);
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("JSON_PARSE_ERROR", "Error parsing JSON data", e);
         }
         return dictionaries;
     }
 
 
+
+
     @Override
     public void onItemClickListener(Dictionary dictionary, int position) {
-
-        Fragment fragment = new DictionaryDetail();
+        DictionaryDetail fragment = new DictionaryDetail();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(API_KEYS.DEFINITION,dictionary);
+        bundle.putParcelable(API_KEYS.DEFINITION, dictionary);
         fragment.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,fragment).addToBackStack(API_KEYS.DEFINITION).commit();
 
-
+        // Begin a transaction and add it to the back stack
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(null) // 'null' or a name for this back stack state
+                .commit();
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.help_menu_main,menu);
 
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -228,11 +238,8 @@ public class MainFragment extends Fragment implements OnItemClickListener {
                 }
             });
 
-
-
         }
         return true;
     }
-
 
 }

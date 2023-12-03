@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
+ * Dictionary Shared preference class
  * @author Linna Wang
- * @version 1.0
  */
 public class SharedPreferenceHelper {
 

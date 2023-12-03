@@ -3,6 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <item
+        android:id="@+id/menu_sunrise"
+        android:icon="@drawable/sunrise_icon"
+        android:title="@string/sunset"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_recipe"
+        android:icon="@drawable/recipe"
+        android:title="@string/recipe"
+        android:visible="true"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_dictionary"
+        android:icon="@drawable/dictionary"
+        android:title="@string/dictionary"
+        android:visible="true"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_deezer"
+        android:icon="@drawable/deezer"
+        android:title="@string/deezer"
+        android:visible="true"
+        app:showAsAction="always"/>
+
     <item
         android:id="@+id/menu_help"
         android:icon="@drawable/help"

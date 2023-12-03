@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:label="Final Project"
+        android:label="Final"
         android:supportsRtl="true"
         android:theme="@style/Theme.CST2335_FinalProject"
         android:usesCleartextTraffic="true"
@@ -29,37 +29,37 @@
             </intent-filter>
         </activity>
 
-        <!-- Add the activity for the Start activity -->
-        <activity
-            android:name="TriviaDatabase.Start"
-            android:exported="true" />
+        <!-- Change to your PackageName.ClassName -->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:exported="true" />-->
 
-        <!-- Add the activity for MainActivity2 -->
-        <activity
-            android:name="TriviaDatabase.MainActivity2"
-            android:exported="true" />
+<!--        &lt;!&ndash; Add the activity for MainActivity2 &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:exported="true" />-->
 
-        <!-- Add the activity for SecondActivity -->
-        <activity
-            android:name="TriviaDatabase.SecondActivity"
-            android:exported="true" />
-        <activity
-            android:name="TriviaDatabase.QuizActivity"
-            android:exported="false" />
-        <activity
-            android:name="TriviaDatabase.NameEntryActivity"
-            android:exported="true" />
-        <activity
-            android:name="TriviaDatabase.HighScoreActivity"
-            android:exported="true" />
-        <activity
-            android:name="TriviaDatabase.HighScorerNameFragment"
-            android:exported="false"
-            tools:ignore="Instantiatable" />
-        <activity
-            android:name="CurrencyConverter.CurrencyConverter"
-            android:label="Currency Converter">
-            </activity>
+<!--        &lt;!&ndash; Add the activity for SecondActivity &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:exported="false"-->
+<!--            tools:ignore="Instantiatable" />-->
+<!--        <activity-->
+<!--            android:name="PackageName.ClassName"-->
+<!--            android:label="Currency Converter">-->
+<!--            </activity>-->
 
     </application>
 

@@ -33,8 +33,7 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      *
-     * @param menu The options menu in which you place your items.
-     *
+     * @param menu The options menu in which you place your items
      * @return each activity that is linked with the icons
      */
     @Override
@@ -49,7 +48,23 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
         if(item.getItemId()==R.id.menu_help)
         {
             MainActivity.showAlertDialog(this,getResources().getString(R.string.entry_help_title),getResources().getString(R.string.entry_help_detail),new String[]{getResources().getString(R.string.ok),getResources().getString(R.string.cancel)},null,null);
+        } else if(item.getItemId()==R.id.menu_dictionary)
+        {
+            Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+            startActivity(intent);
         }
+//        else if (item.getItemId()==R.id.menu_sunrise)
+//        {
+//            Intent intent = new Intent(EntryActivity.this, Start.class);
+//            startActivity(intent);
+//        }
+//        else if (item.getItemId()==R.id.menu_recipe) {
+//            Intent intent = new Intent(EntryActivity.this, CurrencyConverter.class);
+//            startActivity(intent);
+//        } else if (item.getItemId() == R.id.menu_deezer) {
+//            Intent intent = new Intent(EntryActivity.this, Deezer.class);
+//            startActivity(intent);
+//        }
 
         return true;
     }

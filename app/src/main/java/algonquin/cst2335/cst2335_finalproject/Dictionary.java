@@ -7,9 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Dictionary class with constructors, getters and setters
+ * @author Linna Wang
+ */
 @Entity(tableName = "dictionary")
 public class Dictionary implements Parcelable{
 
@@ -51,21 +56,22 @@ public class Dictionary implements Parcelable{
         public Dictionary[] newArray(int size) {return new Dictionary[size];}
     };
 
-//    @NonNull
-//    public Dictionary convertJsonToDictionary(JSONObject jsonObject) throws JSONException {
-//        JSONObject word_detail = jsonObject.getJSONObject(API_KEYS.WORD);
-//        JSONObject definition_detail = jsonObject.getJSONObject(API_KEYS.MEANING);
-//        String word = word_detail.getString(API_KEYS.WORD);
-//        String definition = definition_detail.getString(API_KEYS.DEFINITION);
-//        return new Dictionary(word, definition);
-//    }
 
     @NonNull
     public Dictionary convertJsonToDictionary(JSONObject jsonObject) throws JSONException {
-        String word = jsonObject.getString(API_KEYS.WORD);
-        String definition = jsonObject.getJSONObject(API_KEYS.MEANING).getString(API_KEYS.DEFINITION);
+        // Get the word directly from the jsonObject
+        String word = jsonObject.getString("word");
+        // Get the array of meanings
+        JSONArray meaningsArray = jsonObject.getJSONArray("meanings");
+        // Assume you want the first meaning and its first definition
+        JSONObject firstMeaning = meaningsArray.getJSONObject(0);
+        JSONArray definitionsArray = firstMeaning.getJSONArray("definitions");
+        // Get the first definition from the first meaning
+        String definition = definitionsArray.getJSONObject(0).getString("definition");
+
         return new Dictionary(word, definition);
     }
+
 
     public String getWord() {return word;}
     public String getDefinition() {return definition;}

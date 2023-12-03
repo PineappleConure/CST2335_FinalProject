@@ -2,8 +2,6 @@ package algonquin.cst2335.cst2335_finalproject;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +19,11 @@ import algonquin.cst2335.cst2335_finalproject.database.DictionaryDatabase;
 import algonquin.cst2335.cst2335_finalproject.databinding.ActivityFavouritelistingBinding;
 
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
+/**
+ * Dictionary Favourite words class
+ * @author Linna Wang
+ */
 public class FavouriteWords extends Fragment implements OnItemClickListener,OnDeleteClickListener, PositiveClickListener{
     private DictionaryAdapter dictionaryAdapter;
     private ActivityFavouritelistingBinding favouritelistingBinding;
@@ -36,13 +36,12 @@ public class FavouriteWords extends Fragment implements OnItemClickListener,OnDe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         favouritelistingBinding = DataBindingUtil.inflate(inflater, R.layout.activity_favouritelisting, container, false);
         setHasOptionsMenu(true);
-        return favouritelistingBinding.getRoot();
-    }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.help_menu_detail,menu);
+        // Initialize the database and DAO
+        dictionaryDatabase = Room.databaseBuilder(getContext(), DictionaryDatabase.class, API_KEYS.DATABASE_NAME).build();
+        dictionaryDao = dictionaryDatabase.dictionaryDao();
+
+        return favouritelistingBinding.getRoot();
     }
 
     @Override
@@ -50,22 +49,20 @@ public class FavouriteWords extends Fragment implements OnItemClickListener,OnDe
         super.onViewCreated(view, savedInstanceState);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         favouritelistingBinding.rvWords.setLayoutManager(linearLayoutManager);
-        dictionaryViewModel = new ViewModelProvider(this).get(DictionaryViewModel.class);
-        dictionaryAdapter = new DictionaryAdapter(new ArrayList<>(),true);
+
+        // Provide the DAO to the ViewModel
+        dictionaryViewModel = new ViewModelProvider(this, new DictionaryViewModelFactory(dictionaryDao)).get(DictionaryViewModel.class);
+        dictionaryAdapter = new DictionaryAdapter(new ArrayList<>(), true);
         dictionaryAdapter.setOnItemClickListener(this::onItemClickListener);
         dictionaryAdapter.setOnDeleteClickListener(this::onDeleteClickListener);
         favouritelistingBinding.rvWords.setAdapter(dictionaryAdapter);
-        dictionaryDatabase = Room.databaseBuilder(getContext(), DictionaryDatabase.class, API_KEYS.DATABASE_NAME).build();
-        dictionaryDao = dictionaryDatabase.dictionaryDao();
-        Executor thread = Executors.newSingleThreadExecutor();
-        thread.execute(() -> {
-            dictionaryViewModel.dictionaryList.addAll(dictionaryDao.getWord());
-            getActivity().runOnUiThread(() -> {
-                dictionaryAdapter.setData(dictionaryViewModel.dictionaryList);
-            });
 
+        // Observe changes in the database using LiveData
+        dictionaryViewModel.getWords().observe(getViewLifecycleOwner(), words -> {
+            dictionaryAdapter.setData(words);
         });
     }
+
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.menu_help)
@@ -89,24 +86,28 @@ public class FavouriteWords extends Fragment implements OnItemClickListener,OnDe
     }
 
     @Override
-    public void onUserConfirmation(Dictionary dictionary) {
-        Executor thread = Executors.newSingleThreadExecutor();
-        thread.execute(() -> {
-            dictionaryDao.deleteWord(dictionary.word_id);
-
-            dictionaryViewModel.dictionaryList.remove(dictionary);
-
-            getActivity().runOnUiThread(()->{
-                dictionaryAdapter.notifyDataSetChanged();
-            });
-
-            MainActivity.snackBar(getContext(), getResources().getString(R.string.selected_record_deleted_successfully), favouritelistingBinding.getRoot());
-            getActivity().getSupportFragmentManager().popBackStack();
-        });
+    public void onDeleteClickListener(Dictionary dictionary, int position) {
+        MainActivity.showAlertDialog(getContext(),
+                getResources().getString(R.string.do_you_want_delete_record) + position,
+                getResources().getString(R.string.please_confirm),
+                new String[]{getResources().getString(R.string.yes), getResources().getString(R.string.cancel)},
+                dict -> {
+                    dictionaryViewModel.deleteWord(dictionary);
+                    dictionaryAdapter.notifyItemRemoved(position); // Notify the adapter about the item removal
+                },
+                dictionary);
     }
+
 
     @Override
-    public void onDeleteClickListener(Dictionary dictionary, int position) {
-        MainActivity.showAlertDialog(getContext(), getResources().getString(R.string.do_you_want_delete_record) + position, getResources().getString(R.string.please_confirm), new String[]{getResources().getString(R.string.yes), getResources().getString(R.string.cancel)}, this, dictionary);
+    public void onUserConfirmation(Dictionary dictionary) {
+        dictionaryViewModel.deleteWord(dictionary);
+
+        getActivity().runOnUiThread(() -> {
+            MainActivity.snackBar(getContext(), getResources().getString(R.string.selected_record_deleted_successfully), favouritelistingBinding.getRoot());
+            getActivity().getSupportFragmentManager().popBackStack();
+            dictionaryAdapter.notifyDataSetChanged(); // Refresh adapter
+        });
     }
 }
+

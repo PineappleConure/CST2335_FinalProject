@@ -12,6 +12,8 @@
         android:layout_height="match_parent"
         tools:context=".DictioinaryDetail">
 
+<!--        android:onClick="@{(v)->onClick.onClick(v)}"-->
+
         <Button
             android:id="@+id/btn_add"
             android:layout_width="0dp"
@@ -19,17 +21,16 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:onClick="@{(v)->onClick.onClick(v)}"
             android:text="@string/save_to_favourite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
+        <!--            android:text="@string/word"-->
         <TextView
             android:id="@+id/txt_word_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/word"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,9 +47,8 @@
             android:id="@+id/txt_word_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txt_word_label"
+            app:layout_constraintStart_toStartOf="@+id/txt_word_label"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

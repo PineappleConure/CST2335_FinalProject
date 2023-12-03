@@ -10,6 +10,10 @@ import algonquin.cst2335.cst2335_finalproject.Dictionary;
 
 import java.util.List;
 
+/**
+ * DictionarDao interface
+ * @author Linna Wang
+ */
 @Dao
 public interface DictionaryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -21,7 +25,7 @@ public interface DictionaryDao {
     @Query("SELECT * FROM dictionary ORDER BY word_id ASC")
     List<Dictionary> getWord();
 
-    @Query("SELECT * FROM dictionary WHERE word_id = :wordId")
+    @Query("DELETE FROM dictionary WHERE word_id = :wordId")
     int deleteWord(long wordId);
 
     @Query("DELETE FROM dictionary")
