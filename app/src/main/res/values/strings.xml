@@ -5,5 +5,9 @@
     <string name="look_up">Look Up</string>
     <string name="enter_the_longitude">Enter the Longitude</string>
     <string name="enter_the_latitude">Enter the Latitude</string>
+    <string name="database_id_here">Database Id Here</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="save">Save</string>
 
 </resources>

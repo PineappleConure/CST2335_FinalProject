@@ -1,69 +1,115 @@
 package algonquin.cst2335.cst2335_finalproject;
 
-import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainBinding;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    RequestQueue queue = null;
+
+    private EditText editTextLatitude;
+    private EditText editTextLongitude;
+    private Button lookupButton;
+    private Button saveButton;
+    private RecyclerView recyclerView;
+    MainActivityViewModel viewModel;
+    private RequestQueue requestQueue;
+    private LocationAdapter locationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+        EditText editTextLatitude = findViewById(R.id.editTextLatitude);
+        EditText editTextLongitude = findViewById(R.id.editTextLongitude);
+        lookupButton = findViewById(R.id.lookupButton);
+        saveButton = findViewById(R.id.saveButton);
+        recyclerView = findViewById(R.id.recyclerView);
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        // initialize viewModel
+//        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+//
+//        // initialize Room database and DAO
+//        LocationDatabase locationDatabase = Room.databaseBuilder(
+//                getApplicationContext(),
+//                LocationDatabase.class,
+//                "location-database"
+//        ).fallbackToDestructiveMigration().build();
+//
+//        viewModel.init(locationDatabase);// pass the database to the viewModel
 
-        setContentView(binding.getRoot());
+        requestQueue = Volley.newRequestQueue(this);
+//        locationAdapter = new LocationAdapter(new ArrayList<>(), new LocationAdapter.LocationClickListener() {
+//            @Override
+//            public void onClick(FavoriteLocation location) {
+//                viewModel.selectedLocation.setValue(location);
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.fragmentLocation, new LocationDetailsFragment(location))
+//                        .addToBackStack(null)
+//                        .commit();
+//            }
+//        });
 
-        binding.lookupButton.setOnClickListener(click -> {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(locationAdapter);
 
-            String latitude = binding.editTextLatitude.getText().toString();
-            String longitude = binding.editTextLongitude.getText().toString();
+        lookupButton.setOnClickListener(new View.OnClickListener() {
+                String latitude = editTextLatitude.getText().toString();
+                String longitude = editTextLongitude.getText().toString();
 
-            String url = "https://api.sunrisesunset.io/json?lat="
-                    + latitude + "&lng="
-                    + longitude + "&timezone=CA&date=today";
+        String apiUrl = "https://api.sunrisesunset.io/json?lat="
+                + latitude + "&lng=" + longitude + "&timezone=ca&date=today";
 
-            queue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, apiUrl, null,
+        new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            String sunriseTime = response.getJSONObject("results").getString("sunrise");
+                            String sunsetTime = response.getJSONObject("results").getString("sunset");
 
-            // 发送网络请求
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                    response ->{
-                        try{
-                                JSONObject obj = response.getJSONObject("results");
-                                String sunrise = obj.getString("sunrise");
-                                String sunset = obj.getString("sunset");
+                            viewModel.selectedLocation.setValue(new FavoriteLocation(latitude, longitude, false));
+                            viewModel.selectedLocation.getValue().setSunriseTime(sunriseTime);
+                            viewModel.selectedLocation.getValue().setSunsetTime(sunsetTime);
 
-                                runOnUiThread(()->{
-                                    binding.sunrise.setText("The current sunrise time is " + sunrise);
-                                    binding.sunrise.setVisibility(View.VISIBLE);
-
-                                    binding.sunset.setText("The current sunset time is " + sunset);
-                                    binding.sunset.setVisibility(View.VISIBLE);
-                                });
 
                         } catch (JSONException e) {
-                                throw new RuntimeException(e);
+                            e.printStackTrace();
                         }
-                    },
-                    error -> {
-                        int i = 0;
-                    });
-                    queue.add(request);
-            });
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        requestQueue.add(request);
     }
+
+}
 }
 
 
