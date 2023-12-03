@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Projet Final</string>
+    <string name="word_hint">"Entrez un mot      "</string>
+    <string name="search">Recherche</string>
+    <string name="toolbar_title">Dictionnaire</string>
+    <string name="remove">Retirer</string>
+    <string name="sunset">"Recherche des heures de lever et de coucher du soleil      "</string>
+    <string name="recipe">"Recherche de recettes      "</string>
+    <string name="dictionary">"Dictionnaire      "</string>
+    <string name="deezer">"Recherche de chansons sur Deezer      "</string>
+    <string name="fav_word">"Liste de mots favoris      "</string>
+    <string name="add_fav">"Ajouter aux favoris      "</string>
+    <string name="hint">"Entrez un mot      "</string>
+    <string name="help">"Aide      "</string>
+    <string name="entry_help_title">Instruction</string>
+    <string name="entry_help_detail">"Veuillez sélectionner l'activité sur la page      "</string>
+    <string name="ok">Bon</string>
+    <string name="cancel">Annuler</string>
+    <string name="hint_word">"Entrez un mot à rechercher "</string>
+    <string name="delete">Supprimer</string>
+    <string name="no_internet">Pas de connexion Internet. Veuillez vérifier vos paramètres réseau.</string>
+    <string name="word_warning">Veuillez entrer un mot</string>
+    <string name="no_word_found">Aucune définition trouvée pour le mot donné.</string>
+    <string name="api_server_error">Une erreur s\'est produite lors de la récupération des données :</string>
+    <string name="favourite">Préférée</string>
+    <string name="main_help_title">"Rechercher un mot "</string>
+    <string name="main_help_message">"Tapez le mot pour obtenir les définitions "</string>
+    <string name="no_record_found">"Désolé! Aucun enregistrement dans les favoris "</string>
+    <string name="favourite_help_title">Aide</string>
+    <string name="favourite_help_message">"Ajouter l'article aux favoris "</string>
+    <string name="do_you_want_delete_record">"Voulez-vous supprimer l'enregistrement sur "</string>
+    <string name="selected_record_deleted_successfully">"Enregistrement sélectionné supprimé avec succès "</string>
+    <string name="please_confirm">"Veuillez confirmer "</string>
+    <string name="yes">Oui</string>
+    <string name="save_to_favourite">"Enregistrer dans les favoris "</string>
+    <string name="definition">"Définition: "</string>
+    <string name="add_into_favourite">"Ajouter aux favoris avec succès "</string>
+    <string name="detail_help_title">Aide</string>
+    <string name="detail_help_message">"Changez selon votre compréhension "</string>
+</resources>
