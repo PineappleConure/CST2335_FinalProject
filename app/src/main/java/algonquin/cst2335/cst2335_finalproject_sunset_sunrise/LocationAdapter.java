@@ -1,4 +1,4 @@
-package algonquin.cst2335.cst2335_finalproject;
+package algonquin.cst2335.cst2335_finalproject_sunset_sunrise;
 
 import android.view.LayoutInflater;
 import android.view.View;

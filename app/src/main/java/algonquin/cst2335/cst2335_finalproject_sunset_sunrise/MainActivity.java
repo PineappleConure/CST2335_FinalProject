@@ -1,4 +1,4 @@
-package algonquin.cst2335.cst2335_finalproject;
+package algonquin.cst2335.cst2335_finalproject_sunset_sunrise;
 
 
 import android.content.Context;
@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainBinding;
+import algonquin.cst2335.cst2335_finalproject_sunset_sunrise.databinding.ActivityMainBinding;
 
 /**
  * The main activity of the application responsible for handling user interactions,

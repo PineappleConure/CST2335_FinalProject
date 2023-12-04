@@ -1,4 +1,4 @@
-package algonquin.cst2335.cst2335_finalproject;
+package algonquin.cst2335.cst2335_finalproject_sunset_sunrise;
 
 import android.os.Parcel;
 import android.os.Parcelable;

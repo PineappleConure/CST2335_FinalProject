@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "algonquin.cst2335.cst2335_finalproject"
+    namespace = "algonquin.cst2335.cst2335_finalproject_sunset_sunrise"
     compileSdk = 34
 
     buildFeatures {
@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "algonquin.cst2335.cst2335_finalproject"
+        applicationId = "algonquin.cst2335.cst2335_finalproject_sunset_sunrise"
         minSdk = 27
         targetSdk = 33
         versionCode = 1
