@@ -61,6 +61,10 @@
 <!--            android:label="Currency Converter">-->
 <!--            </activity>-->
 
+
+        <meta-data
+            android:name="androidx.room.RoomDatabase.DEFAULT_DATABASE_CALLBACK"
+            android:value="androidx.room.RoomDatabase$DefaultDatabaseCallback" />
     </application>
 
 </manifest>
