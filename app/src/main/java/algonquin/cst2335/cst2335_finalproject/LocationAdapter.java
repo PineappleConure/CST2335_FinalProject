@@ -15,7 +15,10 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     private OnItemClickListener listener;
 
     public interface OnItemClickListener{
-        void onItemClick(LocationData location);
+        void onItemClick(Object item);
+
+        void onLongItemClick(View view, int position);
+//        void onItemItemClick(View view, int position);
     }
 
     public LocationAdapter(List<LocationData> locations, OnItemClickListener listener){

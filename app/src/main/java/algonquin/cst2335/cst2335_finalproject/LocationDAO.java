@@ -30,19 +30,21 @@ public class LocationDAO {
     public List<LocationData> getSavedLocations() {
         List<LocationData> locations = new ArrayList<>();
 
-        Cursor cursor = database.query(
-                DatabaseHelper.TABLE_LOCATIONS,
-                new String[]{DatabaseHelper.COLUMN_ID, DatabaseHelper.COLUMN_LATITUDE, DatabaseHelper.COLUMN_LONGITUDE},
-                null,null,null,null,null);
-        while (cursor.moveToNext()){
+
+            Cursor cursor = database.query(
+                    DatabaseHelper.TABLE_LOCATIONS,
+                    new String[]{DatabaseHelper.COLUMN_ID, DatabaseHelper.COLUMN_LATITUDE, DatabaseHelper.COLUMN_LONGITUDE},
+                    null, null, null, null, null);
+
+            while (cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID));
             String latitude = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LATITUDE));
             String longitude = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LONGITUDE));
 
             locations.add(new LocationData(id, latitude, longitude));
-        }
-        cursor.close();
-        return locations;
+            }
+            cursor.close();
+            return locations;
     }
 
     public void deleteLocation(int locationId){

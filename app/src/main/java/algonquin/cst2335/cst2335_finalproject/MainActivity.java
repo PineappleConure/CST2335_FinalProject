@@ -1,14 +1,18 @@
 package algonquin.cst2335.cst2335_finalproject;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,17 +30,17 @@ import java.util.List;
 import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText editTextLatitude;
-    private EditText editTextLongitude;
+    public EditText editTextLatitude;
+    public EditText editTextLongitude;
     private Button lookupButton;
     private Button saveButton;
     private TextView sunriseTextView;
     private TextView sunsetTextView;
     private TextView sunrise;
     private TextView sunset;
-    private RecyclerView recyclerView;
-    private LocationAdapter locationAdapter;
-    private LocationDAO locationDAO;
+    public RecyclerView recyclerView;
+    public LocationAdapter locationAdapter;
+    public LocationDAO locationDAO;
     RequestQueue queue = null;
     ActivityMainBinding binding;
 
@@ -59,12 +62,25 @@ public class MainActivity extends AppCompatActivity {
         locationDAO = new LocationDAO(this);
         List<LocationData> savedLocations = locationDAO.getSavedLocations();
 
-        locationAdapter = new LocationAdapter(savedLocations, this::onLocationItemClick);
+        locationAdapter = new LocationAdapter(savedLocations, new LocationAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Object item) {
+                if (item instanceof LocationData) {
+                    LocationData locationData = (LocationData) item;
+                    onLocationItemClick(locationData);
+                }
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+            }
+        });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(locationAdapter);
 
-        lookupButton.setOnClickListener(click -> {
 
+        lookupButton.setOnClickListener(click -> {
             String latitude = editTextLatitude.getText().toString();
             String longitude = editTextLongitude.getText().toString();
 
@@ -74,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
             queue = Volley.newRequestQueue(this);
 
-            // 发送网络请求
+            // send network request
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                     response ->{
                         try{
@@ -100,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             queue.add(request);
         });
 
+
         saveButton.setOnClickListener(click ->{
             String latitude = editTextLatitude.getText().toString();
             String longitude = editTextLongitude.getText().toString();
@@ -112,16 +129,36 @@ public class MainActivity extends AppCompatActivity {
 
             locationAdapter.updateLocations(updatedLocations);
         });
-    }
-    private void onLocationItemClick(LocationData location){
-        Toast.makeText(this, "Clicked on location: " + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
+                this, recyclerView,
+                new LocationAdapter.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(Object item) {
+                        if(item instanceof LocationData){
+                            LocationData locationData = (LocationData) item;
+                            showLocationDetailFragment(locationData);
+                        }
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position){
+                    }
+                }
+        ));
+    }
+    private void onLocationItemClick(LocationData location) {
+        Toast.makeText(this, "Clicked on location: " + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_SHORT).show();
+/*
         // display a confirmation dialog to the user
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setMessage("Do you want to delete this location?" + location.getLatitude() + "," + location.getLongitude())
                 .setTitle("Delete Location")
-                .setNegativeButton("No", (dialog,cl)->{})
-                .setPositiveButton("Yes", (dialog,cl)->{
+                .setNegativeButton("No", (dialog, cl) -> {
+                })
+                .setPositiveButton("Yes", (dialog, cl) -> {
                     int position = locationAdapter.getLocations().indexOf(location);
 
                     // get the removed location
@@ -133,27 +170,75 @@ public class MainActivity extends AppCompatActivity {
                     locationAdapter.updateLocations(updatedLocations);
 
                     final List<LocationData> finalUpdatedLocations = updatedLocations;
-                    Snackbar.make(recyclerView, "Deleted Location #" + (position+1), Snackbar.LENGTH_LONG)
+                    Snackbar.make(recyclerView, "Deleted Location #" + (position + 1), Snackbar.LENGTH_LONG)
                             .setAction("Undo", undoclk -> {
                                 locationDAO.saveLocation(removedLocation);
 //                                updatedLocations = locationDAO.getSavedLocations();
                                 locationAdapter.updateLocations(updatedLocations);
                             })
-                            .addCallback(new Snackbar.Callback(){
+                            .addCallback(new Snackbar.Callback() {
                                 @Override
-                                public void onDismissed(Snackbar snackbar, int event){
+                                public void onDismissed(Snackbar snackbar, int event) {
                                     // update the adapter after the Snackbar is dismissed
-                                   if (event != DISMISS_EVENT_ACTION) {
-                                       locationAdapter.updateLocations(finalUpdatedLocations);
-                                   }
+                                    if (event != DISMISS_EVENT_ACTION) {
+                                        locationAdapter.updateLocations(finalUpdatedLocations);
+                                    }
                                 }
                             })
                             .show();
-            })
-            .create().show();
+                })
+                .create().show();
+
+ */
+    }
+
+        private void showLocationDetailFragment(LocationData locationData){
+        LocationDetailFragment fragment = LocationDetailFragment.newInstance(locationData);
+        fragment.show(getSupportFragmentManager(), "locationDetailFragment");
         }
 
+        public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener{
+        private LocationAdapter.OnItemClickListener listener;
+        private GestureDetector gestureDetector;
+
+        public RecyclerItemClickListener(Context context, RecyclerView recyclerView, LocationAdapter.OnItemClickListener listener) {
+            this.listener = listener;
+            this.gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && listener != null) {
+                        listener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
+                    }
+                }
+            });
+        }
+
+                @Override
+                public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                    View child = rv.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && gestureDetector.onTouchEvent(e)) {
+                        int position = rv.getChildAdapterPosition(child);
+                        listener.onItemClick(locationAdapter.getLocationAt(position));
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onTouchEvent(@Nullable RecyclerView rv, @NonNull MotionEvent e) {}
+
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+        }
 }
+
+
+
 
 
 
