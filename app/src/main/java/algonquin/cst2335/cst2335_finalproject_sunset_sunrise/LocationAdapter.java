@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import algonquin.cst2335.cst2335_finalproject.R;
+
 /**
  * Adapter class for managing the data set of LocationData objects and binding them to RecyclerView items.
  */

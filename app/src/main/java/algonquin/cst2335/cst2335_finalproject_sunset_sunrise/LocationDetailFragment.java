@@ -16,6 +16,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import algonquin.cst2335.cst2335_finalproject.R;
+
 /**
  * A DialogFragment for displaying details of a specific location, including latitude and longitude.
  */

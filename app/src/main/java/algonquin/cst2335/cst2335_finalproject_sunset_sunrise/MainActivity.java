@@ -28,7 +28,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import algonquin.cst2335.cst2335_finalproject_sunset_sunrise.databinding.ActivityMainSunsetBinding;
+import algonquin.cst2335.cst2335_finalproject.R;
+import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainSunsetBinding;
 
 /**
  * The main activity of the application responsible for handling user interactions,
