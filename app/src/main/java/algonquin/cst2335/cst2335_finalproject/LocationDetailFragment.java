@@ -11,25 +11,26 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
+/**
+ * A DialogFragment for displaying details of a specific location, including latitude and longitude.
+ */
 public class LocationDetailFragment extends DialogFragment {
-
     private LocationData locationData;
     private RequestQueue queue;
     private TextView sunriseTextView;
     private TextView sunsetTextView;
     private MainActivity activity;
 
+    /**
+     * Called when the fragment is attached to an activity.
+     * Checks if the parent activity is an instance of MainActivity and sets the activity accordingly.
+     * @param context   The context to which the fragment is attached.
+     */
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -40,6 +41,11 @@ public class LocationDetailFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Creates a new instance of LocationDetailFragment with the provided LocationData.
+     * @param locationData  The LocationData to display details for.
+     * @return  A new instance of LocationDetailFragment.
+     */
     public static LocationDetailFragment newInstance(LocationData locationData){
         LocationDetailFragment fragment = new LocationDetailFragment();
         Bundle args = new Bundle();
@@ -48,6 +54,18 @@ public class LocationDetailFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * Inflates the fragment's layout, initializes UI components, and sets up event listeners.
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return The inflated View for the fragment's UI.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.fragment_location_detail,container, false);
@@ -63,13 +81,15 @@ public class LocationDetailFragment extends DialogFragment {
         textViewLatitude.setText("Latitude: " + locationData.getLatitude());
         textViewLongitude.setText("Longitude: " + locationData.getLongitude());
 
-
         deleteButton.setOnClickListener(v -> showDeleteConfirmationDialog());
 //        searchButton.setOnClickListener(v -> performSearchAction());
 
         return rootView;
     }
 
+    /**
+     * Display a confirmation dialog for deleting the current location.
+     */
     private void showDeleteConfirmationDialog(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

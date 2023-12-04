@@ -2,6 +2,7 @@ package algonquin.cst2335.cst2335_finalproject;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -29,6 +30,11 @@ import java.util.List;
 
 import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainBinding;
 
+/**
+ * The main activity of the application responsible for handling user interactions,
+ * displaying sunrise and sunset informatin, managing saved locations, and more.
+ */
+
 public class MainActivity extends AppCompatActivity {
     public EditText editTextLatitude;
     public EditText editTextLongitude;
@@ -44,11 +50,22 @@ public class MainActivity extends AppCompatActivity {
     RequestQueue queue = null;
     ActivityMainBinding binding;
 
+    /**
+     * Called when the activity is first created.
+     * Responsible for initializing UI components, setting up event listeners,
+     * and loading saved locations from SharedPreferences.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // initialize UI components and set up event listeners
         editTextLatitude = findViewById(R.id.editTextLatitude);
         editTextLongitude = findViewById(R.id.editTextLongitude);
         lookupButton = findViewById(R.id.lookupButton);
@@ -59,9 +76,14 @@ public class MainActivity extends AppCompatActivity {
         sunset = findViewById(R.id.sunset);
         recyclerView = findViewById(R.id.recyclerView);
 
+        // load saved locations from SharedPreferences
+        loadFromSharedPreferencs();
+
+        // initialize LocationDAO and retrieve saved locations
         locationDAO = new LocationDAO(this);
         List<LocationData> savedLocations = locationDAO.getSavedLocations();
 
+        // initialize LocationAdapter with saved locations
         locationAdapter = new LocationAdapter(savedLocations, new LocationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Object item) {
@@ -70,15 +92,13 @@ public class MainActivity extends AppCompatActivity {
                     onLocationItemClick(locationData);
                 }
             }
-
             @Override
-            public void onLongItemClick(View view, int position) {
-            }
+            public void onLongItemClick(View view, int position) {}
         });
 
+        // set up RecyclerView with LinearLayoutManager and LocationAdapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(locationAdapter);
-
 
         lookupButton.setOnClickListener(click -> {
             String latitude = editTextLatitude.getText().toString();
@@ -93,29 +113,27 @@ public class MainActivity extends AppCompatActivity {
             // send network request
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                     response ->{
-                        try{
-                            JSONObject obj = response.getJSONObject("results");
-                            String sunrise = obj.getString("sunrise");
-                            String sunset = obj.getString("sunset");
+                try{
+                    JSONObject obj = response.getJSONObject("results");
+                    String sunrise = obj.getString("sunrise");
+                    String sunset = obj.getString("sunset");
 
-                            runOnUiThread(()->{
-                                sunriseTextView.setText("The current sunrise time is " + sunrise);
-                                sunriseTextView.setVisibility(View.VISIBLE);
-
-                                sunsetTextView.setText("The current sunset time is " + sunset);
-                                sunsetTextView.setVisibility(View.VISIBLE);
-                            });
-
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                    },
-                    error -> {
-                        int i = 0;
+                    runOnUiThread(()->{
+                        sunriseTextView.setText("The current sunrise time is " + sunrise);
+                        sunriseTextView.setVisibility(View.VISIBLE);
+                        sunsetTextView.setText("The current sunset time is " + sunset);
+                        sunsetTextView.setVisibility(View.VISIBLE);
                     });
+                    saveToSharedPreferences(latitude, longitude);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                },
+                    error -> {
+                int i = 0;
+            });
             queue.add(request);
         });
-
 
         saveButton.setOnClickListener(click ->{
             String latitude = editTextLatitude.getText().toString();
@@ -128,13 +146,12 @@ public class MainActivity extends AppCompatActivity {
             List<LocationData> updatedLocations = locationDAO.getSavedLocations();
 
             locationAdapter.updateLocations(updatedLocations);
+
+            saveToSharedPreferences(latitude, longitude);
         });
 
-
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(
-                this, recyclerView,
-                new LocationAdapter.OnItemClickListener() {
-
+                this, recyclerView, new LocationAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(Object item) {
                         if(item instanceof LocationData){
@@ -142,65 +159,61 @@ public class MainActivity extends AppCompatActivity {
                             showLocationDetailFragment(locationData);
                         }
                     }
-
                     @Override
-                    public void onLongItemClick(View view, int position){
-                    }
+                    public void onLongItemClick(View view, int position){}
                 }
-        ));
+                )
+        );
     }
+
+    /**
+     * Load saved latitude and longitude from SharedPreferences and set them to the corresponding EditTexts.
+     */
+    private void loadFromSharedPreferencs() {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        String savedLatitude = preferences.getString("saved_latitude","");
+        String savedLongitude = preferences.getString("saved_longitude","");
+
+        editTextLatitude.setText(savedLatitude);
+        editTextLongitude.setText(savedLongitude);
+    }
+
+    /**
+     * Save the given latitude and longitude to SharedPreferences.
+     * @param latitude      The latitude to be saved.
+     * @param longitude     The longitude to be saved.
+     */
+    private void saveToSharedPreferences(String latitude, String longitude) {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("saved_latitude", latitude);
+        editor.putString("saved_longitude", longitude);
+        editor.apply();
+    }
+
+    /**
+     * Handle click events on saved locations in the RecyclerView.
+     * @param location  The clicked LocationData.
+     */
     private void onLocationItemClick(LocationData location) {
         Toast.makeText(this, "Clicked on location: " + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_SHORT).show();
-/*
-        // display a confirmation dialog to the user
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage("Do you want to delete this location?" + location.getLatitude() + "," + location.getLongitude())
-                .setTitle("Delete Location")
-                .setNegativeButton("No", (dialog, cl) -> {
-                })
-                .setPositiveButton("Yes", (dialog, cl) -> {
-                    int position = locationAdapter.getLocations().indexOf(location);
-
-                    // get the removed location
-                    LocationData removedLocation = locationAdapter.getLocationAt(position);
-
-                    //update the list in LocationAdapter
-                    locationDAO.deleteLocation(location.getId());
-                    List<LocationData> updatedLocations = locationDAO.getSavedLocations();
-                    locationAdapter.updateLocations(updatedLocations);
-
-                    final List<LocationData> finalUpdatedLocations = updatedLocations;
-                    Snackbar.make(recyclerView, "Deleted Location #" + (position + 1), Snackbar.LENGTH_LONG)
-                            .setAction("Undo", undoclk -> {
-                                locationDAO.saveLocation(removedLocation);
-//                                updatedLocations = locationDAO.getSavedLocations();
-                                locationAdapter.updateLocations(updatedLocations);
-                            })
-                            .addCallback(new Snackbar.Callback() {
-                                @Override
-                                public void onDismissed(Snackbar snackbar, int event) {
-                                    // update the adapter after the Snackbar is dismissed
-                                    if (event != DISMISS_EVENT_ACTION) {
-                                        locationAdapter.updateLocations(finalUpdatedLocations);
-                                    }
-                                }
-                            })
-                            .show();
-                })
-                .create().show();
-
- */
     }
 
-        private void showLocationDetailFragment(LocationData locationData){
+    /**
+     * Show the LocationDetailsFragment for the given LocationData.
+     * @param locationData  The LocationData for which to show the detail fragment.
+     */
+    private void showLocationDetailFragment(LocationData locationData){
         LocationDetailFragment fragment = LocationDetailFragment.newInstance(locationData);
         fragment.show(getSupportFragmentManager(), "locationDetailFragment");
-        }
+    }
 
-        public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener{
+    /**
+     * Custom RecyclerView.OnItemTouchListener for handling item click and long click events.
+     */
+    public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener{
         private LocationAdapter.OnItemClickListener listener;
         private GestureDetector gestureDetector;
-
         public RecyclerItemClickListener(Context context, RecyclerView recyclerView, LocationAdapter.OnItemClickListener listener) {
             this.listener = listener;
             this.gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
@@ -217,24 +230,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-                @Override
-                public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                    View child = rv.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && gestureDetector.onTouchEvent(e)) {
-                        int position = rv.getChildAdapterPosition(child);
-                        listener.onItemClick(locationAdapter.getLocationAt(position));
-                        return true;
-                    }
-                    return false;
-                }
-
-                @Override
-                public void onTouchEvent(@Nullable RecyclerView rv, @NonNull MotionEvent e) {}
-
-                @Override
-                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+        @Override
+        public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && gestureDetector.onTouchEvent(e)) {
+                int position = rv.getChildAdapterPosition(child);
+                listener.onItemClick(locationAdapter.getLocationAt(position));
+                return true;
+            }
+            return false;
         }
+        @Override
+        public void onTouchEvent(@Nullable RecyclerView rv, @NonNull MotionEvent e) {}
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+    }
 }
 
 

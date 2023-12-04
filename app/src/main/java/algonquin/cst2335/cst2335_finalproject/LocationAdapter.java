@@ -10,33 +10,64 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * Adapter class for managing the data set of LocationData objects and binding them to RecyclerView items.
+ */
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.LocationViewHolder> {
     private List<LocationData> locations;
     private OnItemClickListener listener;
 
+    /**
+     *  Interface definition for a callback to be invoked when an item in the adapter is clicked or long-clicked.
+     */
     public interface OnItemClickListener{
+        /**
+         * Called when an item is clicked.
+         * @param item The clicked item.
+         */
         void onItemClick(Object item);
 
+        /**
+         * Called when an item is long-clicked.
+         * @param view  The View that was clicked.
+         * @param position  The position of the clicked item.
+         */
         void onLongItemClick(View view, int position);
-//        void onItemItemClick(View view, int position);
     }
 
+    /**
+     * Constructs a LocationAdapter with the provided list of locations and item click listener.
+     * @param locations The list of LocationData objects to be displayed.
+     * @param listener  The listener for item click events.
+     */
     public LocationAdapter(List<LocationData> locations, OnItemClickListener listener){
         this.locations = locations;
         this.listener = listener;
     }
 
+    /**
+     * Updates the list of locations in the adapter and notifies observers of the data set change.
+     * @param updatedLocations The updated list of LocationData objects.
+     */
     public void updateLocations(List<LocationData> updatedLocations){
         locations.clear();
         locations.addAll(updatedLocations);
         notifyDataSetChanged();
     }
 
-
+    /**
+     * Gets the list of locations in the adapter.
+     * @return The list of LocationData objects.
+     */
     public List<LocationData> getLocations(){
         return locations;
     }
 
+    /**
+     * Gets the LocationData object at the specified position in the adapter.
+     * @param position  The position of the desired item.
+     * @return  The LocationData object at the specified position.
+     */
     public LocationData getLocationAt(int position){
         return locations.get(position);
     }
@@ -58,7 +89,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         return locations.size();
     }
 
-
+    /**
+     * ViewHolder class for representing individual items in the RecyclerView.
+     */
     class LocationViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewLatitude;
         private TextView textViewLongitude;
@@ -82,6 +115,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
                 }
             });
         }
+
+        /**
+         * Binds the data of a LocationData object to the ViewHolder.
+         * @param location  The LocationData object to bind.
+         */
         public void bind(LocationData location){
             textViewLatitude.setText("Latitude: " + location.getLatitude());
             textViewLongitude.setText("Longitude: " + location.getLongitude());
