@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import algonquin.cst2335.cst2335_finalproject_sunset_sunrise.databinding.ActivityMainBinding;
+import algonquin.cst2335.cst2335_finalproject_sunset_sunrise.databinding.ActivityMainSunsetBinding;
 
 /**
  * The main activity of the application responsible for handling user interactions,
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public LocationAdapter locationAdapter;
     public LocationDAO locationDAO;
     RequestQueue queue = null;
-    ActivityMainBinding binding;
+    ActivityMainSunsetBinding binding;
 
     /**
      * Called when the activity is first created.
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_sunset);
 
         // initialize UI components and set up event listeners
         editTextLatitude = findViewById(R.id.editTextLatitude);
