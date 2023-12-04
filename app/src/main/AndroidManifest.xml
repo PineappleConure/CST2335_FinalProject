@@ -30,9 +30,9 @@
         </activity>
 
         <!-- Change to your PackageName.ClassName -->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:exported="true" />-->
+        <activity
+            android:name="algonquin.cst2335.cst2335_finalproject_sunset_sunrise.MainActivity"
+            android:exported="true" />
 
 <!--        &lt;!&ndash; Add the activity for MainActivity2 &ndash;&gt;-->
 <!--        <activity-->
@@ -61,6 +61,10 @@
 <!--            android:label="Currency Converter">-->
 <!--            </activity>-->
 
+
+        <meta-data
+            android:name="androidx.room.RoomDatabase.DEFAULT_DATABASE_CALLBACK"
+            android:value="androidx.room.RoomDatabase$DefaultDatabaseCallback" />
     </application>
 
 </manifest>

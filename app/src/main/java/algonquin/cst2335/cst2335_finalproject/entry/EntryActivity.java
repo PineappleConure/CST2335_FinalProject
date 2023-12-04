@@ -53,11 +53,11 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(EntryActivity.this, MainActivity.class);
             startActivity(intent);
         }
-//        else if (item.getItemId()==R.id.menu_sunrise)
-//        {
-//            Intent intent = new Intent(EntryActivity.this, Start.class);
-//            startActivity(intent);
-//        }
+        else if (item.getItemId()==R.id.menu_sunrise)
+        {
+            Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_sunset_sunrise.MainActivity.class);
+            startActivity(intent);
+        }
 //        else if (item.getItemId()==R.id.menu_recipe) {
 //            Intent intent = new Intent(EntryActivity.this, CurrencyConverter.class);
 //            startActivity(intent);
@@ -78,11 +78,12 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
         if(view.getId()==R.id.btn_dictionary)
         {
             Intent intent = new Intent(EntryActivity.this, MainActivity.class);
-            startActivity(intent);}
-//        } else if (view.getId()==R.id.btn_sunset) {
-//            Intent intent = new Intent(EntryActivity.this, Start.class);
-//            startActivity(intent);
-//        }
+            startActivity(intent);
+        } else if (view.getId() == R.id.btn_sunset) {
+            Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_sunset_sunrise.MainActivity.class);
+            startActivity(intent);
+        }
+
 //        else if(view.getId()==R.id.btn_recipe)
 //        {
 //            Intent intent = new Intent(EntryActivity.this, CurrencyConverter.class);

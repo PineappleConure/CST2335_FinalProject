@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <!-- Latitude EditText -->
+    <EditText
+        android:id="@+id/editTextLatitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_the_latitude" />
+
+    <!-- Longitude EditText -->
+    <EditText
+        android:id="@+id/editTextLongitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_the_longitude"
+        android:layout_below="@id/editTextLatitude"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Lookup Button -->
+    <Button
+        android:id="@+id/lookupButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/look_up"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/editTextLongitude"/>
+
+    <!-- sunrise TextView -->
+    <TextView
+        android:id="@+id/sunrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lookupButton"
+        android:layout_marginTop="16dp"
+        android:text="@string/sunrise_time"
+        android:visibility="visible" />
+
+    <!-- sunset TextView -->
+    <TextView
+        android:id="@+id/sunset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sunrise"
+        android:layout_marginTop="8dp"
+        android:text="@string/sunset_time"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/sunset"
+        android:text="Save" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/saveButton"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>
+

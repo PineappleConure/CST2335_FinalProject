@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="saveButton">#673AB7</color>
+    <color name="toolbar">#8465BC</color>
 </resources>

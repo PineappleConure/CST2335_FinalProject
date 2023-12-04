@@ -38,5 +38,15 @@
     <string name="add_into_favourite" >Add into favourite successfully</string>
     <string name="detail_help_title">Help</string>
     <string name="detail_help_message">"Change as per your understanding "</string>
+    <string name="sunrise_time">Sunrise Time</string>
+    <string name="sunset_time">Sunset Time</string>
+    <string name="look_up">Look Up</string>
+    <string name="enter_the_longitude">Enter the Longitude</string>
+    <string name="enter_the_latitude">Enter the Latitude</string>
+    <string name="database_id_here">Database Id Here</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="save">Save</string>
+
 
 </resources>
