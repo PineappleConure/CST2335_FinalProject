@@ -44,4 +44,9 @@ public class LocationDAO {
         cursor.close();
         return locations;
     }
+
+    public void deleteLocation(int locationId){
+        database.delete(DatabaseHelper.TABLE_LOCATIONS, DatabaseHelper.COLUMN_ID + "=?",
+                new String[]{String.valueOf(locationId)});
+    }
 }

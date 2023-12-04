@@ -4,8 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.LocationViewHolder> {
@@ -26,12 +28,22 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         locations.addAll(updatedLocations);
         notifyDataSetChanged();
     }
+
+
+    public List<LocationData> getLocations(){
+        return locations;
+    }
+
+    public LocationData getLocationAt(int position){
+        return locations.get(position);
+    }
+
     @NonNull
     @Override
     public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_location, parent, false);
-        return new LocationViewHolder(itemView, listener);
+        return new LocationViewHolder(itemView, listener );
     }
     @Override
     public void onBindViewHolder(@NonNull LocationViewHolder holder, int position){
@@ -43,32 +55,33 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         return locations.size();
     }
 
-    static class LocationViewHolder extends RecyclerView.ViewHolder{
+
+    class LocationViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewLatitude;
         private TextView textViewLongitude;
         private OnItemClickListener listener;
-        private List<LocationData> locations;
+//        private LocationAdapter locationAdapter;
+
+//        private List<LocationData> locations;
         public LocationViewHolder(@NonNull View itemView, OnItemClickListener listener){
             super(itemView);
             this.listener = listener;
+//            this.locationAdapter = locationAdapter;
+
             textViewLatitude = itemView.findViewById(R.id.textViewLatitude);
             textViewLongitude = itemView.findViewById(R.id.textViewLongitude);
 
             itemView.setOnClickListener(v -> {
-                int position = getAdapterPosition();
+                int position = getAbsoluteAdapterPosition();
+
                 if(position != RecyclerView.NO_POSITION && this.listener != null){
                     this.listener.onItemClick(getLocationAt(position));
                 }
             });
         }
         public void bind(LocationData location){
-            textViewLatitude.setText("Latutude: " + location.getLatitude());
+            textViewLatitude.setText("Latitude: " + location.getLatitude());
             textViewLongitude.setText("Longitude: " + location.getLongitude());
         }
-
-        private LocationData getLocationAt(int position){
-            return locations.get(position);
-        }
-
     }
 }

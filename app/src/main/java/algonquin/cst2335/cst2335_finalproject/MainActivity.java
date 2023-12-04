@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LocationAdapter locationAdapter;
     private LocationDAO locationDAO;
-
     RequestQueue queue = null;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,13 +112,47 @@ public class MainActivity extends AppCompatActivity {
 
             locationAdapter.updateLocations(updatedLocations);
         });
-
-
-
     }
     private void onLocationItemClick(LocationData location){
         Toast.makeText(this, "Clicked on location: " + location.getLatitude() + "," + location.getLongitude(), Toast.LENGTH_SHORT).show();
-    }
+
+        // display a confirmation dialog to the user
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("Do you want to delete this location?" + location.getLatitude() + "," + location.getLongitude())
+                .setTitle("Delete Location")
+                .setNegativeButton("No", (dialog,cl)->{})
+                .setPositiveButton("Yes", (dialog,cl)->{
+                    int position = locationAdapter.getLocations().indexOf(location);
+
+                    // get the removed location
+                    LocationData removedLocation = locationAdapter.getLocationAt(position);
+
+                    //update the list in LocationAdapter
+                    locationDAO.deleteLocation(location.getId());
+                    List<LocationData> updatedLocations = locationDAO.getSavedLocations();
+                    locationAdapter.updateLocations(updatedLocations);
+
+                    final List<LocationData> finalUpdatedLocations = updatedLocations;
+                    Snackbar.make(recyclerView, "Deleted Location #" + (position+1), Snackbar.LENGTH_LONG)
+                            .setAction("Undo", undoclk -> {
+                                locationDAO.saveLocation(removedLocation);
+//                                updatedLocations = locationDAO.getSavedLocations();
+                                locationAdapter.updateLocations(updatedLocations);
+                            })
+                            .addCallback(new Snackbar.Callback(){
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event){
+                                    // update the adapter after the Snackbar is dismissed
+                                   if (event != DISMISS_EVENT_ACTION) {
+                                       locationAdapter.updateLocations(finalUpdatedLocations);
+                                   }
+                                }
+                            })
+                            .show();
+            })
+            .create().show();
+        }
+
 }
 
 
