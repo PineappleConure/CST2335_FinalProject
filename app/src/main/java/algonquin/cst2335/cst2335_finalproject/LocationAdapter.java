@@ -1,81 +1,74 @@
 package algonquin.cst2335.cst2335_finalproject;
 
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class LocationAdapter extends RecyclerView.Adapter<MyRowHolder> {
+public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.LocationViewHolder> {
+    private List<LocationData> locations;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener{
+        void onItemClick(LocationData location);
+    }
+
+    public LocationAdapter(List<LocationData> locations, OnItemClickListener listener){
+        this.locations = locations;
+        this.listener = listener;
+    }
+
+    public void updateLocations(List<LocationData> updatedLocations){
+        locations.clear();
+        locations.addAll(updatedLocations);
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
-    public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_location, parent, false);
-        return new MyRowHolder(itemView);
+    public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_location, parent, false);
+        return new LocationViewHolder(itemView, listener);
     }
-
     @Override
-    public void onBindViewHolder(@NonNull MyRowHolder holder, int position){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh-mm-ss");
-        String currentDateandTime = sdf.format(new Date());
-        FavoriteLocation favoriteLocation = locations.get(position);
-        holder.sunrise.setText("Sunrise: " + favoriteLocation.getSunrise());
-        holder.sunset.setText("Sunset: " + favoriteLocation.getSunset());
-        holder.itemView.setOnClickListener( click ->{
-            deleteOrUpdate(position);
-        });
-    }
-
-
-    @NonNull
-    @Override
-    public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_location, parent, false);
-        return new LocationViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
-        FavoriteLocation location = locations.get(position);
+    public void onBindViewHolder(@NonNull LocationViewHolder holder, int position){
+        LocationData location = locations.get(position);
         holder.bind(location);
     }
-
     @Override
-    public int getItemCount() {
+    public int getItemCount(){
         return locations.size();
     }
 
-    public class LocationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView textViewLocation;
-
-        public LocationViewHolder(@NonNull View itemView) {
+    static class LocationViewHolder extends RecyclerView.ViewHolder{
+        private TextView textViewLatitude;
+        private TextView textViewLongitude;
+        private OnItemClickListener listener;
+        private List<LocationData> locations;
+        public LocationViewHolder(@NonNull View itemView, OnItemClickListener listener){
             super(itemView);
-            textViewLocation = itemView.findViewById(R.id.textViewLocation);
-            itemView.setOnClickListener(this);
+            this.listener = listener;
+            textViewLatitude = itemView.findViewById(R.id.textViewLatitude);
+            textViewLongitude = itemView.findViewById(R.id.textViewLongitude);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if(position != RecyclerView.NO_POSITION && this.listener != null){
+                    this.listener.onItemClick(getLocationAt(position));
+                }
+            });
+        }
+        public void bind(LocationData location){
+            textViewLatitude.setText("Latutude: " + location.getLatitude());
+            textViewLongitude.setText("Longitude: " + location.getLongitude());
         }
 
-        public void bind(FavoriteLocation location) {
-            textViewLocation.setText("Latitude: " + location.getLatitude() + ", Longitude: " + location.getLongitude());
+        private LocationData getLocationAt(int position){
+            return locations.get(position);
         }
 
-        @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                clickListener.onClick(locations.get(position));
-            }
-        }
-    }
-
-    public interface LocationClickListener {
-        void onClick(FavoriteLocation location);
     }
 }
-
