@@ -129,7 +129,7 @@ public class CollectFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.my_menu, menu);
+        inflater.inflate(R.menu.my_menu_music, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
     /**
