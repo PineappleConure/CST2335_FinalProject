@@ -47,12 +47,9 @@
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="save">Save</string>
-    <string name="app_name">CST2335_FinalProject - Music</string>
     <string name="favorite">My Favorite</string>
-    <string name="search">Search</string>
     <string name="prompt">Please enter artist name</string>
     <string name="add">Add to My Favorite</string>
-    <string name="delete">delete</string>
 
 
 </resources>
