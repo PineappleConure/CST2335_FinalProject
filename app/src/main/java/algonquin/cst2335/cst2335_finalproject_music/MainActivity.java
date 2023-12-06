@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import algonquin.cst2335.cst2335_finalproject_music.databinding.ItemMusicCollectBinding;
-
 /**
  * The main activity of the application responsible for displaying the initial fragment
  * and managing back stack navigation.
@@ -24,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_music);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.root, new SearchFragment())
