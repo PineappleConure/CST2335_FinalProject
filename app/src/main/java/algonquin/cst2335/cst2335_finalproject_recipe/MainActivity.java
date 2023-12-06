@@ -1,10 +1,7 @@
-package algonquin.cst2335.cst2335_finalproject;
+package algonquin.cst2335.cst2335_finalproject_recipe;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -27,10 +24,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
-import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainBinding;
+import algonquin.cst2335.cst2335_finalproject_recipe.databinding.ActivityMainRecipeBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainRecipeBinding binding = ActivityMainRecipeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 
