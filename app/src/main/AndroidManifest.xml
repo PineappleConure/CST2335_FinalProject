@@ -65,6 +65,10 @@
         <meta-data
             android:name="androidx.room.RoomDatabase.DEFAULT_DATABASE_CALLBACK"
             android:value="androidx.room.RoomDatabase$DefaultDatabaseCallback" />
+
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
     </application>
 
 </manifest>
