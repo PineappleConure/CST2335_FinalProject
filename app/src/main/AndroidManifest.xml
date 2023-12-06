@@ -30,6 +30,9 @@
         </activity>
 
         <!-- Change to your PackageName.ClassName -->
+        <activity android:name="algonquin.cst2335.cst2335_finalproject.MainActivity"
+            android:exported="true" />
+
         <activity
             android:name="algonquin.cst2335.cst2335_finalproject_sunset_sunrise.MainActivity"
             android:exported="true" />
