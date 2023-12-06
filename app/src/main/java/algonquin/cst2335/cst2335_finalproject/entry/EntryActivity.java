@@ -58,10 +58,11 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_sunset_sunrise.MainActivity.class);
             startActivity(intent);
         }
-//        else if (item.getItemId()==R.id.menu_recipe) {
-//            Intent intent = new Intent(EntryActivity.this, CurrencyConverter.class);
-//            startActivity(intent);
-//        } else if (item.getItemId() == R.id.menu_deezer) {
+        else if (item.getItemId()==R.id.menu_deezer) {
+            Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_music.MainActivity.class);
+            startActivity(intent);
+        }
+//        else if (item.getItemId() == R.id.menu_deezer) {
 //            Intent intent = new Intent(EntryActivity.this, Deezer.class);
 //            startActivity(intent);
 //        }
@@ -81,6 +82,9 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
             startActivity(intent);
         } else if (view.getId() == R.id.btn_sunset) {
             Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_sunset_sunrise.MainActivity.class);
+            startActivity(intent);
+        } else if (view.getId() ==R.id.btn_deezer) {
+            Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_music.MainActivity.class);
             startActivity(intent);
         }
 

@@ -20,8 +20,9 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
-import algonquin.cst2335.cst2335_finalproject_music.databinding.ActivitySearchFragmentBinding;
-import algonquin.cst2335.cst2335_finalproject_music.databinding.ItemMusicBinding;
+import algonquin.cst2335.cst2335_finalproject.R;
+import algonquin.cst2335.cst2335_finalproject.databinding.ActivitySearchFragmentBinding;
+import algonquin.cst2335.cst2335_finalproject.databinding.ItemMusicBinding;
 
 /**
  * A fragment that allows users to search for music artists and view their top tracks.

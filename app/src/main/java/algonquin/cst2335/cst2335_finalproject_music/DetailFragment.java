@@ -14,7 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 
-import algonquin.cst2335.cst2335_finalproject_music.databinding.FragmentDetailBinding;
+import algonquin.cst2335.cst2335_finalproject.R;
+import algonquin.cst2335.cst2335_finalproject.databinding.FragmentDetailBinding;
 
 /**
  * A fragment that displays detailed information about a MusicItem.

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import algonquin.cst2335.cst2335_finalproject.R;
+
 /**
  * The main activity of the application responsible for displaying the initial fragment
  * and managing back stack navigation.
