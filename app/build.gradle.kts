@@ -51,6 +51,10 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
     implementation("androidx.databinding:databinding-runtime:8.2.0")
     implementation("androidx.fragment:fragment:1.6.2")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+
+
 
     val room_version = "2.4.2"
     implementation("androidx.room:room-runtime:$room_version")

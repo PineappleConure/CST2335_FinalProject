@@ -4,4 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="saveButton">#673AB7</color>
     <color name="toolbar">#8465BC</color>
+    <color name="purpleish">#CB7DD8</color>
+    <color name="blue">#7487ED</color>
+    <color name="pinkish">#AC1F4F</color>
+    <color name="light_blue">#8690C6</color>
+    <color name="light_purple">#CF47E6</color>
 </resources>
