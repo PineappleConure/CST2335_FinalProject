@@ -1,14 +1,82 @@
 package algonquin.cst2335.cst2335_finalproject;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+
+import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+
+    protected String recipe;
+    protected RequestQueue queue = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+
+        queue = Volley.newRequestQueue(this);
+
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.searchButton.setOnClickListener( click -> {
+            String recipeTitle = URLEncoder.encode(binding.passwordText.getText().toString());
+
+            String url = "https://api.spoonacular.com/recipes/complexSearch?query="+ recipeTitle +"&apiKey=9af43493ab344fc8bbaee3b9aef17483";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    response -> {
+                try{
+                    JSONArray obj = response.getJSONArray("results");
+                  int size = obj.length();
+                  for(int i = 0; i < size; i++){
+                      JSONObject recipe = obj.getJSONObject(i);
+                      int id = recipe.getInt("id");
+                      String title = recipe.getString("title");
+                      String image = recipe.getString("image");
+
+
+                      String recipeURL = "https://api.spoonacular.com/recipes/"+ id +"/information?apiKey=9af43493ab344fc8bbaee3b9aef17483";
+
+                      JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET, recipeURL, null,
+                              response2 ->{
+                                  try {
+                                      String sourceURL = response2.getString("sourceUrl");
+                                      String summary = response2.getString("summary");
+                                  } catch (JSONException e) {
+                                      throw new RuntimeException(e);
+                                  }
+                                  int j = 0;
+                              },
+                              error2 ->{ });
+                      queue.add(request2);
+
+                  }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            },
+                    error -> {
+                int i = 0;
+                    });
+            queue.add(request);
+        });
+
+        }
 }
+
+
+
