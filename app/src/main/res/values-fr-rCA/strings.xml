@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CST2335_FinalProject - Musique</string>
+    <string name="favorite">Mon Préféré</string>
+    <string name="search">Recherche</string>
+    <string name="prompt">Veuillez saisir le nom de l\'artiste</string>
+    <string name="add">Ajouter à mes favoris</string>
+    <string name="delete">supprimer</string>
+</resources>
