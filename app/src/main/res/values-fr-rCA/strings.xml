@@ -38,4 +38,10 @@
     <string name="add_into_favourite">"Ajouter aux favoris avec succès "</string>
     <string name="detail_help_title">Aide</string>
     <string name="detail_help_message">"Changez selon votre compréhension "</string>
+    <string name="app_name">CST2335_FinalProject - Musique</string>
+    <string name="favorite">Mon Préféré</string>
+    <string name="search">Recherche</string>
+    <string name="prompt">Veuillez saisir le nom de l\'artiste</string>
+    <string name="add">Ajouter à mes favoris</string>
+    <string name="delete">supprimer</string>
 </resources>
