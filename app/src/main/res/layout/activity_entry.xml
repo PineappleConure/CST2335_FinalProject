@@ -35,7 +35,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="24dp"
             android:onClick="@{(v)->onClick.onClick(v)}"
-            android:text="@string/recipe"
+            android:text="@string/recipe_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

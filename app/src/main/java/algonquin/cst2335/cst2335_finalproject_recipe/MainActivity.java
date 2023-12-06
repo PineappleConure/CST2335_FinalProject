@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.net.URLEncoder;
 
-import algonquin.cst2335.cst2335_finalproject_recipe.databinding.ActivityMainRecipeBinding;
+import algonquin.cst2335.cst2335_finalproject.databinding.ActivityMainRecipeBinding;
 
 public class MainActivity extends AppCompatActivity {
 

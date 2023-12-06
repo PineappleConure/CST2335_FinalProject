@@ -61,11 +61,10 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
         else if (item.getItemId()==R.id.menu_deezer) {
             Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_music.MainActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.menu_recipe) {
+            Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_recipe.MainActivity.class);
+            startActivity(intent);
         }
-//        else if (item.getItemId() == R.id.menu_deezer) {
-//            Intent intent = new Intent(EntryActivity.this, Deezer.class);
-//            startActivity(intent);
-//        }
 
         return true;
     }
@@ -86,17 +85,10 @@ public class EntryActivity extends AppCompatActivity implements View.OnClickList
         } else if (view.getId() ==R.id.btn_deezer) {
             Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_music.MainActivity.class);
             startActivity(intent);
+        } else if (view.getId() == R.id.btn_recipe) {
+            Intent intent = new Intent(EntryActivity.this, algonquin.cst2335.cst2335_finalproject_recipe.MainActivity.class);
+            startActivity(intent);
         }
-
-//        else if(view.getId()==R.id.btn_recipe)
-//        {
-//            Intent intent = new Intent(EntryActivity.this, CurrencyConverter.class);
-//            startActivity(intent);
-//        } else if(view.getId()==R.id.btn_deezer) {
-//            Intent intent = new Intent(EntryActivity.this, Deezer.class);
-//            startActivity(intent);
-//        }
-
 
     }
 

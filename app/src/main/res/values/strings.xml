@@ -5,7 +5,7 @@
     <string name="toolbar_title">Dictionary</string>
     <string name="remove">Remove</string>
     <string name="sunset">"Sunrise and Sunset lookup  "</string>
-    <string name="recipe">Recipe Search</string>
+    <string name="recipe_1">Recipe Search</string>
     <string name="dictionary">Dictionary</string>
     <string name="deezer">Deezer song search </string>
     <string name="fav_word">List of favorite word</string>
@@ -56,8 +56,6 @@
     <string name="ingredients">Ingredients</string>
     <string name="method">Method</string>
     <string name="recipe">Recipe</string>
-
-
 
     <string-array name="tags">
         <item>main course</item>

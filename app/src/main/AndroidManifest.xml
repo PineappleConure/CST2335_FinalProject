@@ -41,33 +41,9 @@
             android:name="algonquin.cst2335.cst2335_finalproject_music.MainActivity"
             android:exported="true" />
 
-<!--        &lt;!&ndash; Add the activity for MainActivity2 &ndash;&gt;-->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:exported="true" />-->
-
-<!--        &lt;!&ndash; Add the activity for SecondActivity &ndash;&gt;-->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:exported="true" />-->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:exported="true" />-->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:exported="true" />-->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:exported="false"-->
-<!--            tools:ignore="Instantiatable" />-->
-<!--        <activity-->
-<!--            android:name="PackageName.ClassName"-->
-<!--            android:label="Currency Converter">-->
-<!--            </activity>-->
-
+        <activity
+            android:name="algonquin.cst2335.cst2335_finalproject_recipe.MainActivity"
+            android:exported="true"/>
 
         <meta-data
             android:name="androidx.room.RoomDatabase.DEFAULT_DATABASE_CALLBACK"
