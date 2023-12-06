@@ -8,13 +8,19 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+   <TextView
+       android:id="@+id/textView"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Enter recipe title" />
 
    <EditText
-       android:id="@+id/passwordText"
+       android:id="@+id/recipeTitleText"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:gravity="center"
-       android:hint="Search your meal here" />
+       android:hint="Search your meal here"
+       android:minHeight="48dp" />
 
    <Button
        android:id="@+id/searchButton"
@@ -22,21 +28,32 @@
        android:layout_height="wrap_content"
        android:text="Get your meals" />
 
-
-
-   <ImageView
-       android:id="@+id/icon"
-       android:layout_width="200dp"
-       android:layout_height="200dp"
-       tools:visibility="invisible" />
    <TextView
-       android:text="search context here"
+       android:id="@+id/id"
+       android:text="Recipe ID:"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+   <TextView
+       android:id="@+id/title"
+       android:text="Recipe Title:"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"/>
 
+   <ImageView
+       android:id="@+id/image"
+       android:layout_width="200dp"
+       android:layout_height="200dp"
+       tools:visibility="invisible" />
 
-
-
-
+   <TextView
+       android:id="@+id/sourceUrl"
+       android:text="SourceURL:"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+   <TextView
+       android:id="@+id/summary"
+       android:text="Recipe Summary:"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
 
 </LinearLayout>
