@@ -10,4 +10,11 @@
     <string name="latitude">纬度</string>
     <string name="longitude">经度</string>
     <string name="save">保存</string>
+
+    <string name="api_key">fd32af8833e74b4cb613903ac5bd215d</string>
+    <string name="recipeName">菜单名目</string>
+    <string name="ingredients">配料表</string>
+    <string name="method">步骤</string>
+    <string name="recipe">菜谱</string>
+
 </resources>
